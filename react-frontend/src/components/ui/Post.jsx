@@ -51,4 +51,48 @@ export default function Post() {
             setProcessing(false);
         }
     };
+
+    return (
+        <div className="post-container">
+        <div className="post-card">
+            <form onSubmit={submit} className="post-form">
+                <textarea 
+                    value={message} 
+                    placeholder ="What is happening?"
+                    className="post-textarea"
+                    onChange={(e) => setMessage(e.target.value)}
+                    disabled={processing}
+                ></textarea>
+
+                {error &&
+                    <div className="post-error">
+                        {error}
+                        </div>
+                }
+
+                <div className="post-footer">
+                    <button 
+                        type="submit"
+                        className="post-submit-btn"    
+                        disabled={processing || !message.trim()}
+                        >
+                        {processing ? 'Posting...' : 'Post'}
+                        </button>
+                </div>
+            </form>
+        </div>
+
+        <div className="post-feed-list">
+        {
+            posts.length > 0 ? (
+                posts.map((post) => (
+                    <PostCard key={post.id || Math.random()} post={post} />
+                ))
+            ) : (
+                <div className="post-empty-state">No posts shared yet.</div>     
+            )
+        }
+        </div>
+    </div>
+    );
 }
